@@ -1,0 +1,13 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(/tasks)",
+      "WebSearch",
+      "WebFetch(domain:www.espn.com)",
+      "WebFetch(domain:theanalyst.com)",
+      "WebFetch(domain:ratingbet.com)",
+      "WebFetch(domain:www.actionnetwork.com)",
+      "WebFetch(domain:blog.sx.bet)"
+    ]
+  }
+}
