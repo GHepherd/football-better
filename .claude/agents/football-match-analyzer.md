@@ -36,8 +36,37 @@ You will receive football match intelligence from the football-intelligence-gath
 ### Step 4: Market-Specific Conversion
 - **1X2**: Direct from outcome model
 - **Correct Score**: Poisson simulation with correlation adjustment (typically top 10-15 scorelines, must sum to ~85%+ coverage)
-- **Handicap**: Derived from goal difference distribution; identify the fair line where both sides ~50%, then provide adjacent lines
+- **Handicap**: Derived from goal difference distribution; identify the fair line where both sides ~50%, then provide adjacent lines. **Quarter lines (±0.25 / ±0.75) are the exception — never price them off an "effective win rate".** Compute their fair odds with the split formula in 「Quarter-Line Pricing」 below.
 - **Total Goals**: Sum both teams' xG, apply distribution, extract over/under probabilities at standard lines
+
+### Quarter-Line Pricing (±0.25 / ±0.75)
+
+A quarter line is **two half-stakes on the two adjacent half-ball lines**, so its middle outcome
+settles as a **half-win or a half-loss — never a push**. Which of the two it is decides the
+fair-odds formula, and the two forms are not interchangeable:
+
+| The side you are pricing | Middle outcome occurs when | Middle settles as | Break-even odds `D*` |
+|---|---|---|---|
+| `+0.75` receiving | it loses by exactly 1 | **half-loss** `−0.5` | `(p_w + 0.5·p_h + p_l) / p_w` |
+| `−0.25` giving | the match is drawn | **half-loss** `−0.5` | `(p_w + 0.5·p_h + p_l) / p_w` |
+| `+0.25` receiving | the match is drawn | **half-win** `+0.5(D−1)` | `1 + p_l / (p_w + 0.5·p_h)` |
+| `−0.75` giving | it wins by exactly 1 | **half-win** `+0.5(D−1)` | `1 + p_l / (p_w + 0.5·p_h)` |
+
+where `p_w` = full win, `p_h` = the middle outcome, `p_l` = full loss.
+
+The 判据 is always **how the middle tranche settles for the side you are quoting** — does that
+side's stake lose half or win half? The form is a property of the *side*, not of the line: quote
+`+0.25` from the other end and the middle flips from half-win to half-loss. Never carry a
+formula across sides.
+
+**Do not use `D* = 1 / (p_w + 0.5·p_h)`.** It treats the middle as a push, which no quarter line
+ever is, and it inverts the sign of the edge. 2026-09-06 阿森纳 vs 切尔西: the model priced
+切尔西 +0.75 at fair 1.82 from `1/0.544`, but the half-loss form gives **2.088** — so the
+recommended bet was EV ≈ −3.7%, the opposite of what was published.
+
+This is a **deterministic arithmetic check, not a sample-size question**: it runs on every match
+that touches a quarter line, with no n threshold and no exception. Worked cases and the incident
+record live in memory `quarter-ball-handicap-ev-arithmetic`.
 
 ## Output Format Requirements
 
@@ -91,7 +120,7 @@ Present your analysis in this exact structure:
 
 ## Quality Control & Self-Verification
 
-- **Probability coherence check**: Ensure 1X2 sums to 100% (±0.5%), correct score sums to ~85-95% (acknowledging tail), handicap at any line sums to ~100% accounting for push, totals account for push at whole numbers
+- **Probability coherence check**: Ensure 1X2 sums to 100% (±0.5%), correct score sums to ~85-95% (acknowledging tail), handicap at any line sums to ~100%, totals account for push at whole numbers. **A whole-ball handicap line has a push; a quarter line has none** — its middle outcome is a half-win or half-loss, not a push. Do not let a "push" mental model leak into quarter-line pricing; see 「Quarter-Line Pricing」.
 - **Market realism check**: Flag any probability that deviates >10% from typical market efficiency without strong justification
 - **Uncertainty quantification**: Always state confidence level; never present uncertain intelligence as high-confidence
 - **Avoid overprecision**: Use one decimal place for probabilities; avoid false precision with limited data
