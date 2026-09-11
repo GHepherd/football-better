@@ -32,7 +32,7 @@ Agents should be invoked in order; each stage depends on the previous stage's ou
 
 ## Development Workflow
 
-There are no build, lint, test, or install commands for this repository. Changes are made by editing the Markdown agent manifests in `.claude/agents/`.
+There are no build, lint, test, or install commands for this repository. Changes are made by editing the Markdown agent manifests in `.claude/agents/` or the skill files under `.claude/skills/football-match-analysis/`.
 
 When modifying an agent:
 
