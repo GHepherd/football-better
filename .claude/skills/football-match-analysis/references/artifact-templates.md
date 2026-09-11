@@ -26,7 +26,8 @@
 格式沿用 `football-intelligence-gatherer` manifest 的 Output Format：四个情报分类 + 数据时点。
 
 - 四个情报分类：赔率 / 阵容 / 近期状态 / H2H。
-- 每个数据点必须注明采集时点与可信度标记（`CONFIRMED` / `REPORTED` / `PREDICTED`）。
+- 采集时点：见 manifest 的 Output Format 第 4 项（Data timestamp）。
+- 可信度标记：见 manifest 的 Operational Standards；本文件不复制该标记集合。
 
 ### `-analysis.md`（分析）
 
@@ -36,7 +37,7 @@
 
 多场汇总表，每行一场；单场也写，保持产物一致。列：
 
-| 场次 | 情报完整度 | 主胜 | 平 | 客胜 | 让球线 | 总进球主线 | 边际价值 |
+| 场次 | 情报完整度 | 主胜 | 平 | 客胜 | 正确比分前 10 | 让球（主线及相邻线） | 总进球（含 1.5、2.5、3.5） | 边际价值 |
 |---|---|---|---|---|---|---|---|
 
 ### `-review.md`（复盘）
