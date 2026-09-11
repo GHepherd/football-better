@@ -12,3 +12,8 @@
 - [Tottenham/Everton 2026-27 context](tottenham-everton-2026-27-context.md) — De Zerbi 热刺前3轮0进球（豪掷£330m仍崩盘）；Moyes 埃弗顿不败、Grealish复出、Nørgaard伤缺至10月
 - [Villa/Forest 2026-27 context](epl-2026-27-villa-forest-context.md) — Emery 维拉大换血（Jackson/Suzuki/Manzambi等，英超3轮0球）；Glasner 森林（Anderson卖曼城£116m，Delap标王，3-4-2-1）
 - [Arsenal/Chelsea 2026-27 context](arsenal-chelsea-2026-27-context.md) — 阿森纳2025-26英超冠军(85分)+社区盾，Arteta；切尔西第10换帅Alonso打3-4-2-1；Enzo Fernández卖曼城；交锋阿森纳10场不败+酋长4连胜11-2
+- [Chelsea 2026-27 context](chelsea-2026-27-context.md) — 切尔西单队背景：Xabi Alonso 时代阵容、引援、战术形态与门将
+- [Leeds/Newcastle 2026-27 context](leeds-newcastle-2026-27-context.md) — 利兹 Farke 打 3-4-2-1；纽卡 Jaissle 接任、阵容大换血
+- [PL data-source access](data-source-access-pl.md) — 本环境下哪些站点 WebFetch 被封，以及英超情报真正可用的工作流
+- [Premier League data sources](premier-league-data-sources.md) — 英超赛前情报（赔率/阵容/状态/H2H）的可复现检索套路与可用站点
+- [World Cup 2026 data sources](world-cup-2026-data-sources.md) — 2026 世界杯赛前情报的可用来源与已知局限

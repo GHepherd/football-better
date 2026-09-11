@@ -13,3 +13,9 @@
 - [EPL evenly-matched efficient](epl-evenly-matched-efficient.md) — 英超五五开对阵市场通常高效，单边交锋魔咒已进价格，偏差<3pp直接报观望
 - [Manchester derby shallow line](manchester-derby-shallow-line.md) — 曼市德比市场固定给曼城-0.25浅盘，曼联主场韧性已入价，fade曼城仅~3pp、勿全采单模型
 - [Gatherer handicap EU/Asian conflation](gatherer-handicap-european-asian-conflation.md) — 情报常混标欧洲3-way与亚盘2-way、锁不住四分盘，让球线先辨口径再谈水位
+- [Everton-Palace H2H](everton-palace-h2h.md) — 埃弗顿对水晶宫的长期交锋压制规律，及双方进球倾向
+- [Liverpool-Newcastle H2H goals](liverpool-newcastle-h2h-goals.md) — 交锋长期高进球、利物浦联赛19场不败；2026-08 起双方中轴与后防均已换代
+- [Promoted side home opener](promoted-side-home-opener-modeling.md) — 升班马主场揭幕战情绪溢价真实但短暂，盘口常偏深，+1.5 受让方常有边际
+- [Spurs 2026 collapse](spurs-2026-collapse.md) — 热刺开季进攻崩盘+重伤潮，市场因品牌与历史交锋只温和下调，对手受让方或有价值
+- [Old Trafford derby pricing](old-trafford-derby-pricing.md) — 老特拉福德德比的主场魔咒已被市场充分定价，浅盘+DNB低赔不等于价值
+- [Short-side fade caution](short-side-fade-caution.md) — 做空方向连续被击穿后，「市场偏差」主张须过更严证据门槛，否则直接报无价值
