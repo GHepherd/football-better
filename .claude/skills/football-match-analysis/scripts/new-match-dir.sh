@@ -15,5 +15,11 @@ if ! printf '%s' "$date_dir" | grep -Eq '^[0-9]{4}-[0-9]{2}-[0-9]{2}$'; then
   exit 2
 fi
 
+# 必须在仓库根目录运行，否则会在错误的目录下创建 matches/。
+if [ ! -d ".claude/skills/football-match-analysis" ]; then
+  echo "错误: 请在仓库根目录运行（当前目录: $(pwd) 下未找到 .claude/skills/football-match-analysis）" >&2
+  exit 2
+fi
+
 mkdir -p "matches/$date_dir"
 echo "matches/$date_dir"

@@ -25,7 +25,7 @@ analyzer 从 `matches/<date>/<slug>-intel.md` 读取。必填：
 
 ## analyzer → strategist
 
-strategist 从 `matches/<date>/summary.md` 读取。每场必填：
+strategist 从**本轮各比赛日的** `matches/<date>/summary.md` 读取（一个或多个路径，由主会话在 dispatch prompt 中显式给出）。每场必填：
 
 | 字段 | 说明 |
 |---|---|
@@ -36,7 +36,7 @@ strategist 从 `matches/<date>/summary.md` 读取。每场必填：
 | 情报完整度 | **高 / 中 / 低** |
 | 边际价值结论 | 有 / 无；有则指明市场 |
 
-**缺项处理：** 情报完整度为「**低**」时，strategist 必须降级为保守方案，或明确建议观望。**不得基于低完整度数据出激进过户（3串1 及以上）。** 这是硬约束，不是建议。
+**缺项处理：** 情报完整度为「**低**」时，strategist 必须降级为保守方案，或明确建议观望。**不得基于低完整度数据出激进过关（3串1 及以上）。** 这是硬约束，不是建议。
 
 ---
 

@@ -15,7 +15,7 @@ This is a **Claude Code agent-configuration repository**, not a software package
   - `lottery-strategist.md` — Builds a China Sports Lottery (中国体彩) betting plan within a 20 yuan budget from the analyzer's probabilities.
 - `.claude/skills/football-match-analysis/` — The orchestration skill. `SKILL.md` is the single entry point for the whole pipeline; `references/` holds the stage handoff contracts, the review protocol, and the artifact templates; `scripts/` holds a convenience directory helper.
 - `matches/YYYY-MM-DD/` — Runtime output directory (created on demand): per-match `-intel.md`, `-analysis.md`, `-review.md`, plus a `summary.md` and, when a ticket was requested, `plan.md`.
-- `.claude/agent-memory/` — Per-agent persistent memory directories, one per agent. These start empty and are populated by agents at runtime.
+- `.claude/agent-memory/` — Per-agent persistent memory directories, one per agent. Populated by agents at runtime; committed to the repo so the calibration loop survives across machines.
 
 ## Multi-Agent Workflow
 

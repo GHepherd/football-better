@@ -502,7 +502,7 @@ strategist 从 `matches/<date>/summary.md` 读取。每场必填：
 | 情报完整度 | **高 / 中 / 低** |
 | 边际价值结论 | 有 / 无；有则指明市场 |
 
-**缺项处理：** 情报完整度为「**低**」时，strategist 必须降级为保守方案，或明确建议观望。**不得基于低完整度数据出激进过户（3串1 及以上）。** 这是硬约束，不是建议。
+**缺项处理：** 情报完整度为「**低**」时，strategist 必须降级为保守方案，或明确建议观望。**不得基于低完整度数据出激进过关（3串1 及以上）。** 这是硬约束，不是建议。
 
 ---
 
@@ -537,7 +537,7 @@ Run:
 test -f .claude/skills/football-match-analysis/references/handoff-contracts.md && echo "exists"
 grep -c "^## " .claude/skills/football-match-analysis/references/handoff-contracts.md
 grep -q "CONFIRMED" .claude/skills/football-match-analysis/references/handoff-contracts.md && echo "tags OK"
-grep -q "不得基于低完整度数据出激进过户" .claude/skills/football-match-analysis/references/handoff-contracts.md && echo "hard-constraint OK"
+grep -q "不得基于低完整度数据出激进过关" .claude/skills/football-match-analysis/references/handoff-contracts.md && echo "hard-constraint OK"
 ```
 Expected: `exists`、`5`（五个 `## ` 标题）、`tags OK`、`hard-constraint OK`
 

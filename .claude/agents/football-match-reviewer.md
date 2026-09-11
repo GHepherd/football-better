@@ -53,7 +53,13 @@ Reporting hit/miss is bookkeeping. **Attribution is the point.** Identify which 
 If the prediction was correct, say whether it was correct for the stated reason or by luck — a right answer from a wrong mechanism is still a defect.
 
 ### Step 5: Write the review file
-Write `matches/<date>/<slug>-review.md` using the structure in `references/artifact-templates.md`.
+Write `matches/<date>/<slug>-review.md` using the structure in `.claude/skills/football-match-analysis/references/artifact-templates.md`.
+
+Your full protocol — the pending-match conditions, the calibration definitions
+(Brier score and log loss, each always shown beside its baseline), and the exact
+scope of your memory-write permission — lives in
+`.claude/skills/football-match-analysis/references/review-protocol.md`. Read it
+before writing the review file; this manifest summarises it but does not replace it.
 
 ### Step 6: Write back to memory
 See the memory rules below.
@@ -71,7 +77,7 @@ You have a deliberate and **narrowly bounded** authority that no other agent has
 - Correct an evidence annotation you previously wrote when more data arrives.
 
 **You MUST NOT:**
-- Silently rewrite the original claim itself. If the evidence is strong enough to overturn a claim, **write a new memory and link the old one** with `[[old-entry-name]]`, preserving the reasoning trail. Silent edits destroy the audit trail that makes this whole loop trustworthy.
+- Rewrite the original claim itself, whether or not you record having done so. If the evidence is strong enough to overturn a claim, **write a new memory and link the old one** with `[[old-entry-name]]`, preserving the reasoning trail. Editing the original claim destroys the audit trail that makes this whole loop trustworthy.
 - Touch anything outside the "evidence/confidence" portion of an entry.
 
 Every amendment must be listed in the review file's 「本轮记忆修订」 section — which entry, what changed, and why.

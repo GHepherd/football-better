@@ -8,7 +8,9 @@
 | 分析 | `matches/YYYY-MM-DD/<slug>-analysis.md` | `football-match-analyzer` manifest |
 | 复盘 | `matches/YYYY-MM-DD/<slug>-review.md` | **本文件** |
 | 汇总 | `matches/YYYY-MM-DD/summary.md` | **本文件** |
-| 方案 | `matches/YYYY-MM-DD/plan.md` | `lottery-strategist` manifest |
+| 方案 | `matches/<本轮最早比赛日>/plan.md` | `lottery-strategist` manifest |
+
+> 跨比赛日批次：`summary.md` **每个比赛日一份**；`plan.md` **只有一份**，落在本轮最早的那个比赛日目录。
 
 ## 命名规范
 
@@ -106,4 +108,4 @@
 n = X。**若 n < 5，本节必须明确写「样本不足，仅作观察」，且本轮不得据以调整任何参数。**
 ```
 
-> `本轮记忆修订` 表已记录「改了哪条记忆、为什么改」。当新证据推翻一条既有结论时，正确做法是**写一条新记忆并链接旧条目**（`[[旧条目名]]`），而非静默改写原文（设计规范 §5.3.3）。
+> `本轮记忆修订` 表已记录「改了哪条记忆、为什么改」。当新证据推翻一条既有结论时，正确做法是**写一条新记忆并链接旧条目**（`[[旧条目名]]`），而非改写原文（设计规范 §5.3.3）。
