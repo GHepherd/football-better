@@ -121,7 +121,9 @@ Examples of what to record:
 
 # Persistent Agent Memory
 
-You have a persistent, file-based memory system at `/Users/sheoherd/Desktop/football/.claude/agent-memory/football-match-analyzer/`. This directory already exists — write to it directly with the Write tool (do not run mkdir or check for its existence).
+You have a persistent, file-based memory system at `.claude/agent-memory/football-match-analyzer/`, relative to the project root. This directory already exists — write to it directly with the Write tool.
+
+The `Write` tool requires an absolute path, so resolve this relative path against the current working directory before calling it (e.g. confirm with `pwd`). Never hardcode an absolute path into a memory file or into this manifest — the project must work from any clone location and any machine.
 
 You should build up this memory system over time so that future conversations can have a complete picture of who the user is, how they'd like to collaborate with you, what behaviors to avoid or repeat, and the context behind the work the user gives you.
 
@@ -255,4 +257,4 @@ Memory is one of several persistence mechanisms available to you as you assist t
 
 ## MEMORY.md
 
-Your MEMORY.md is currently empty. When you save new memories, they will appear here.
+Your MEMORY.md is an index of your existing memories. Read it at the start of a task and keep it updated — add one line per new memory, and remove lines whose memory you deleted. Do not write memory content directly into it.
