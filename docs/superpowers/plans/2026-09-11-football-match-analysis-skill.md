@@ -206,7 +206,7 @@ You have a deliberate and **narrowly bounded** authority that no other agent has
 - Correct an evidence annotation you previously wrote when more data arrives.
 
 **You MUST NOT:**
-- Silently rewrite the original claim itself. If the evidence is strong enough to overturn a claim, **write a new memory and link the old one** with `[[old-entry-name]]`, preserving the reasoning trail. Silent edits destroy the audit trail that makes this whole loop trustworthy.
+- Rewrite the original claim itself, whether or not you record having done so. If the evidence is strong enough to overturn a claim, **write a new memory and link the old one** with `[[old-entry-name]]`, preserving the reasoning trail. Editing the original claim destroys the audit trail that makes this whole loop trustworthy.
 - Touch anything outside the "evidence/confidence" portion of an entry.
 
 Every amendment must be listed in the review file's 「本轮记忆修订」 section — which entry, what changed, and why.
@@ -697,7 +697,7 @@ WebSearch 拿不到终场比分 → **不写 `-review.md`、不报错、不重�
 - reviewer 拥有自己的记忆目录：`.claude/agent-memory/football-match-reviewer/`
 - reviewer **被显式授权**修订其他 agent 记忆条目中的「证据 / 置信」部分
 - **可以**：追加或更新证据标注（n 计数、胜负记录、置信升降级）
-- **不可以**：不注明地改写原始论断本身。证据足以推翻论断时，正确做法是**新写一条记忆并以 `[[旧条目名]]` 链接**，保留推理痕迹
+- **不可以**：改写原始论断本身（无论是否留痕）。证据足以推翻论断时，正确做法是**新写一条记忆并以 `[[旧条目名]]` 链接**，保留推理痕迹
 - 每次修订必须在 `-review.md` 的「本轮记忆修订」表里留痕
 
 写一句为什么：**假设由 analyzer 持有，证据只能由比赛结果产生。** 不给这条授权，错误假设永远不会被降级，校准闭环就是断的。这正是用户此前手工在做的事（`extreme-mismatch-ucl` 上那条「n=2 均失败，降级为待验证」的标注）。
@@ -767,7 +767,7 @@ Requests in this domain are handled by a four-stage pipeline, orchestrated by th
 
 Agents should be invoked in order; each stage depends on the previous stage's output file. Prefer invoking the skill rather than dispatching agents ad hoc, so the handoff contracts are respected.
 
-`football-match-reviewer` is the only agent authorized to amend evidence annotations in other agents' memory. It may not silently rewrite a claim — see `references/review-protocol.md`.
+`football-match-reviewer` is the only agent authorized to amend evidence annotations in other agents' memory. It may not rewrite a claim, whether or not it records having done so — see `.claude/skills/football-match-analysis/references/review-protocol.md`.
 ```
 
 - [ ] **Step 3: 更新 `Language Conventions`**
@@ -864,7 +864,7 @@ rm -rf matches/2026-09-01 matches/2099-01-01
 - 含 Brier score 与 log loss，且**与均匀基线并列**（验收 10）
 - 含归因分析（验收 10）
 - 含「本轮记忆修订」清单（验收 10）
-- 若修订了 analyzer 记忆，原始论断文字**未被静默改写**（验收 11）
+- 若修订了 analyzer 记忆，原始论断文字**未被改写**（验收 11）
 - 若 n < 5，含「样本不足，仅作观察」且未据此调参（验收 12）
 
 - [ ] **Step 6: 提交验收产物**

@@ -28,7 +28,7 @@ Requests in this domain are handled by a four-stage pipeline, orchestrated by th
 
 Agents should be invoked in order; each stage depends on the previous stage's output file. Prefer invoking the skill rather than dispatching agents ad hoc, so the handoff contracts are respected.
 
-`football-match-reviewer` is the only agent authorized to amend evidence annotations in other agents' memory. It may not silently rewrite a claim — see `references/review-protocol.md`.
+`football-match-reviewer` is the only agent authorized to amend evidence annotations in other agents' memory. It may not rewrite a claim, whether or not it records having done so — see `.claude/skills/football-match-analysis/references/review-protocol.md`.
 
 ## Development Workflow
 
