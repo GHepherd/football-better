@@ -26,7 +26,7 @@
 
 ## 格式权威声明
 
-`-intel.md` 与 `-analysis.md` 的格式**以对应 agent manifest 为准**，本文件不复制、不覆盖，避免两处定义漂移。以下概述仅作快速索引，与 manifest 冲突时以 manifest 为准。
+`-intel.md`、`-analysis.md` 与 `plan-NN.md` 的格式**以对应 agent manifest 为准**，本文件不复制、不覆盖，避免两处定义漂移。以下概述仅作快速索引，与 manifest 冲突时以 manifest 为准。
 
 ### `-intel.md`（情报）
 
