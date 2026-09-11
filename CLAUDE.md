@@ -14,14 +14,14 @@ This is a **Claude Code agent-configuration repository**, not a software package
   - `football-match-analyzer.md` — Converts gathered match intelligence into probability distributions across 1X2, correct score, Asian handicap, and total goals markets.
   - `lottery-strategist.md` — Builds a China Sports Lottery (中国体彩) betting plan within a 20 yuan budget from the analyzer's probabilities.
 - `.claude/skills/football-match-analysis/` — The orchestration skill. `SKILL.md` is the single entry point for the whole pipeline; `references/` holds the stage handoff contracts, the review protocol, and the artifact templates; `scripts/` holds a convenience directory helper.
-- `matches/YYYY-MM-DD/` — Runtime output directory (created on demand): per-match `-intel.md`, `-analysis.md`, `-review.md`, plus a `summary.md` and, when a ticket was requested, a betting plan `plan-NN.md` (numbered so a second plan for the same match day never overwrites the first).
+- `matches/YYYY-MM-DD/` — Runtime output directory (created on demand): per-match `-intel.md`, `-analysis.md`, `-review.md`, plus a `summary.md` and, when a ticket was requested, a betting plan `plan-NN.md` (numbered so a second plan for the same match day never overwrites the first) with its own `plan-NN-review.md`.
 - `.claude/agent-memory/` — Per-agent persistent memory directories, one per agent. Populated by agents at runtime; committed to the repo so the calibration loop survives across machines.
 
 ## Multi-Agent Workflow
 
 Requests in this domain are handled by a four-stage pipeline, orchestrated by the `football-match-analysis` skill:
 
-0. **Review** — Conditionally, before anything else: launch `football-match-reviewer` for any match under `matches/` that has a `-analysis.md`, a match date earlier than today, and no `-review.md`. If there are none, this step is skipped silently.
+0. **Review** — Conditionally, before anything else. There are two independent queues: launch `football-match-reviewer` in *match* mode for any match under `matches/` that has a `-analysis.md`, a match date earlier than today, and no `-review.md`; and in *plan* mode for any `plan-NN.md` whose every covered match already has a `-review.md` and which has no `plan-NN-review.md`. A plan with even one match still outstanding is deliberately held back — an accumulator has no determinable return until every leg is settled. Re-scan the plan queue after the match reviews of this pass finish. If both queues are empty, this step is skipped silently.
 1. **Gather** — When the user names a specific match, launch `football-intelligence-gatherer` to collect odds, lineups, form, and H2H data.
 2. **Analyze** — Feed the gathered intelligence into `football-match-analyzer` to produce calibrated probabilities and market assessments.
 3. **Plan** — If the user wants a lottery ticket, launch `lottery-strategist` using the analyzer's probabilities to generate a ≤20 yuan 竞彩足球 plan. This step requires explicit user consent every time — it spends real money.

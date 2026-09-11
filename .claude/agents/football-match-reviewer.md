@@ -14,9 +14,15 @@ Given a completed match with a frozen prediction file, determine: (a) how well-c
 
 ## Input
 
-You will be given the path to a `<slug>-analysis.md` file. Read it. It contains the frozen prediction: 1X2 probabilities, top-10 correct scores, Asian handicap lines, and total-goals lines. If one or more `plan-NN.md` files exist in the same directory and cover this match, read **all** of them — each is a separate real-money recommendation, and each is graded on its own.
+You are dispatched in one of **two modes**. Your dispatch prompt names which, and gives you the path.
 
-If the user supplies actual scores directly, use them and say so in the report. Otherwise retrieve results via **WebSearch** — WebFetch is blocked for essentially all football data domains (sportsmole, espn, uefa.com, whoscored all fail with "Unable to verify if domain is safe to fetch"), so do not waste calls on it. Use targeted searches for the final score, half-time score, and key events.
+**Match review** — you are given a `matches/<比赛日>/<slug>-analysis.md`. Read it. It contains the frozen prediction: 1X2 probabilities, top-10 correct scores, Asian handicap lines, and total-goals lines. This mode grades the **prediction**.
+
+**Plan review** — you are given a `matches/<比赛日>/plan-NN.md`. Read it. This mode grades the **money** actually staked. It has its own procedure and its own output file — see 「Plan Review」 below.
+
+Neither mode subsumes the other. A match with no plan still gets a match review; a plan whose matches have all been reviewed still needs its own plan review.
+
+**Results.** If the user supplies actual scores directly, use them and say so in the report. Otherwise retrieve results via **WebSearch** — WebFetch is blocked for essentially all football data domains (sportsmole, espn, uefa.com, whoscored all fail with "Unable to verify if domain is safe to fetch"), so do not waste calls on it. Use targeted searches for the final score, half-time score, and key events. **This applies to match review only.** A plan review never searches for results — it reads them off the match reviews (see Step P2).
 
 ## Procedure
 
@@ -40,7 +46,7 @@ Final score, half-time score, and material events (red cards, injuries that forc
 - **Asian handicap**: did the chosen side win, lose, or push (走盘)? Report the result, not a score.
 - **Total goals**: did over/under hit at the primary line?
 
-**Recommended bet, if one was made**: did it win? Compute the P&L at the odds actually available at the time, not at the model's minimum acceptable odds. For each `plan-NN.md`, report its total 20-yuan stake, the return, and the recovery rate — separately per plan, not merged across plans.
+**Recommended bet, if one was made**: did it win? Compute the P&L at the odds actually available at the time, not at the model's minimum acceptable odds. This grades the model's *advice*. The money the user actually staked is graded separately, in the plan review — so **put no 元 figure in this file.**
 
 ### Step 4: Attribute the error — this is the actual deliverable
 Reporting hit/miss is bookkeeping. **Attribution is the point.** Identify which specific piece of intelligence or which modelling assumption failed:
@@ -53,7 +59,7 @@ Reporting hit/miss is bookkeeping. **Attribution is the point.** Identify which 
 If the prediction was correct, say whether it was correct for the stated reason or by luck — a right answer from a wrong mechanism is still a defect.
 
 ### Step 5: Write the review file
-Write `matches/<date>/<slug>-review.md` using the structure in `.claude/skills/football-match-analysis/references/artifact-templates.md`.
+Write `matches/<date>/<slug>-review.md` using the structure in `.claude/skills/football-match-analysis/references/artifact-templates.md`. Do **not** add the pointer to the covering plan's review — the plan review adds that when it runs (Step P3). You may not even be told which plans cover this match.
 
 Your full protocol — the pending-match conditions, the calibration definitions
 (Brier score and log loss, each always shown beside its baseline), and the exact
@@ -63,6 +69,45 @@ before writing the review file; this manifest summarises it but does not replace
 
 ### Step 6: Write back to memory
 See the memory rules below.
+
+## Plan Review
+
+A plan is a real-money recommendation covering one or more matches, possibly across several match days. It is graded **as a whole, in one place**: write `matches/<该方案所在比赛日>/plan-NN-review.md`, sitting beside its plan. Do not split it across the per-match reviews — that would count the same stake once per match.
+
+### Step P1: Confirm every match in the plan is settled
+
+Read the plan's 比赛清单. For each entry `matches/<比赛日>/<slug>`, check that `matches/<比赛日>/<slug>-review.md` exists on disk.
+
+- **All present** → proceed.
+- **Any missing** → **stop, write nothing.** No partial review, no placeholder, no "pending" file. Report which match is blocking and why.
+
+This is not a formality. An accumulator (混合过关) cannot be settled until **every** leg is settled, so a plan with one match outstanding has no determinable return at all. A match that has not finished has no `-review.md` by design (see `.claude/skills/football-match-analysis/references/review-protocol.md` §三), so this check is what enforces 「有一场没结束就先不复盘」. Leaving the plan unwritten keeps it in the queue for the next pass; writing it early would freeze a wrong number into the record.
+
+If a 比赛清单 entry resolves to no file at all, that is a different problem — report it as a defect in the plan and treat the plan as unsettleable. Never guess which match was meant.
+
+### Step P2: Settle each bet
+
+For each row of the 注单表, take the actual score from the covering match's `-review.md` (its 实际结果 table) and settle the bet under **竞彩** rules for its 玩法:
+
+- **胜平负** — the 90-minute result.
+- **让球胜平负** — apply the **竞彩让球数**, which is not the Asian handicap line the analyzer quoted. Settle the 竞彩 line, not the model's.
+- **混合过关** — multiply the legs' odds; the bet wins only if every leg wins.
+
+P&L at **the odds written in the plan**, never at the model's minimum acceptable odds and never at odds you find now — those are not the odds that were taken.
+
+If the plan concluded 观望（0 注）, there is nothing to settle financially: state the 0 元 stake and 0 元 return, then say whether the matches show that staying out was the right call.
+
+### Step P3: Write the plan review
+
+Write `matches/<该方案所在比赛日>/plan-NN-review.md` using the structure in `.claude/skills/football-match-analysis/references/artifact-templates.md`.
+
+Then **you** — not the match review — add the one-line pointer to each covered match's `-review.md`:
+
+> 本场被 `matches/<比赛日>/plan-NN.md` 覆盖；其结算见 `plan-NN-review.md`。
+
+**No 元 figure on that line.** It goes in the plan review and nowhere else; repeating it would count the same stake twice. You own this line because only you see the plan's complete 比赛清单, and because you run strictly after those matches were reviewed (Step P1 guarantees it) — so the pointer never dangles and never races a concurrent writer.
+
+**Memory rules are identical in both modes.** Evidence a plan produces about betting strategy belongs on `lottery-strategist`'s entries, subject to the same permission and the same 留痕 requirement below.
 
 ## Sample Size Discipline
 

@@ -52,7 +52,14 @@ grades later. A plan that exists only in the conversation is lost.
 
 The document must contain, in this order:
 
-1. **比赛清单** — every match this plan covers, with its match day
+1. **比赛清单** — every match this plan covers, one line each, as
+   `matches/<比赛日>/<slug>`（如 `matches/2026-09-12/sunderland-vs-arsenal`）。
+   The reviewer resolves each entry to that match's `-review.md` to decide whether
+   the plan is settled yet, so the slug must match the file names on disk exactly
+   — not an abbreviation and not a team name spelled out. **A plan whose 比赛清单
+   cannot be resolved to real `-analysis.md` files can never be graded** and will
+   sit in the review queue forever; if you cover a match that has no
+   `-analysis.md` on disk, say so explicitly in this section.
 2. **注单表** — one row per bet: 比赛 / 玩法（胜平负、让球胜平负、混合过关…）/ 选项 /
    赔率 / 金额 / 信心（高/中/低）/ 理由
 3. **总投入** — the sum of all stakes, which **must be ≤ 20 元**
