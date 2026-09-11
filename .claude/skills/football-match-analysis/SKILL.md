@@ -32,7 +32,7 @@ description: 编排足球比赛分析全流程 —— 复盘已出结果的历�
 3. 不存在 `<slug>-review.md`
 
 - 有 N 条待复盘 → dispatch `football-match-reviewer`，每场一个。**可能修订同一条目（同一 agent 的同一主题）的场次必须串行**，不得并行；互不相干的场次可并行。详见 `references/review-protocol.md` 五
-- dispatch 时 prompt 中只给出该场 `-analysis.md` 的相对路径（同目录若另有 `plan.md` 一并给出）；**不要转述其内容**——让 reviewer 自己 Read，转述会污染它独立核对的判断
+- dispatch 时 prompt 中只给出该场 `-analysis.md` 的相对路径（同目录若另有 `plan-*.md`，**全部**列出）；**不要转述其内容**——让 reviewer 自己 Read，转述会污染它独立核对的判断
 - **一条都没有 → 完全静默跳过**，不提、不问、不解释，直接进第 1 步
 - 用户说"这次别复盘" → 跳过，且**不写** `-review.md`，下次仍会提醒
 - 比赛未结束或查不到比分 → reviewer 会自行跳过且不写文件，这是预期行为，不要重试、不要报错
@@ -69,7 +69,7 @@ prompt 中给出：对应 `-intel.md` 的路径（要求 agent 自己 Read），
 
 - 每次都要显式征求同意，**上一轮的同意不延续到下一轮**
 - 用户没明确说要 → 绝不进这一步，流程在第 3 步结束
-- 用户回答「要」→ dispatch 一个 `lottery-strategist`，prompt 中给出**本轮全部** `summary.md` 的相对路径（跨比赛日时逐个列出，不代抄其内容，让 agent 自己 Read），以及产物路径。`plan.md` 只有一份，落在本轮**最早**的那个比赛日目录：`matches/<本轮最早比赛日>/plan.md`
+- 用户回答「要」→ dispatch 一个 `lottery-strategist`，prompt 中给出**本轮全部** `summary.md` 的相对路径（跨比赛日时逐个列出，不代抄其内容，让 agent 自己 Read），以及**产物路径**。方案文档落在本轮**最早**的那个比赛日目录，命名为 `plan-NN.md`：先 `ls` 该目录下已有的 `plan-*.md`，取下一个可用序号（一个都没有就用 `plan-01.md`）——**绝不覆盖已有方案**。要求 agent 把完整方案写入该文件，回执中只返回路径 + 摘要
 
 ## 产物与命名
 
@@ -79,7 +79,7 @@ matches/YYYY-MM-DD/
 ├── <slug>-analysis.md     # analyzer 产出
 ├── <slug>-review.md       # reviewer 产出（复盘）
 ├── summary.md             # 主会话汇总
-└── plan.md                # strategist 产出（仅在用户同意后）
+└── plan-NN.md             # strategist 产出（仅在用户同意后；同一天多份则 01/02/…）
 ```
 
 slug = `<主队>-vs-<客队>`，全小写、连字符分隔。日期目录用**比赛日**，不是分析日。

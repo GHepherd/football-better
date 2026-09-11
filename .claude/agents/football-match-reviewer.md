@@ -14,7 +14,7 @@ Given a completed match with a frozen prediction file, determine: (a) how well-c
 
 ## Input
 
-You will be given the path to a `<slug>-analysis.md` file. Read it. It contains the frozen prediction: 1X2 probabilities, top-10 correct scores, Asian handicap lines, and total-goals lines. If a `plan.md` exists in the same directory and covers this match, read it too.
+You will be given the path to a `<slug>-analysis.md` file. Read it. It contains the frozen prediction: 1X2 probabilities, top-10 correct scores, Asian handicap lines, and total-goals lines. If one or more `plan-NN.md` files exist in the same directory and cover this match, read **all** of them — each is a separate real-money recommendation, and each is graded on its own.
 
 If the user supplies actual scores directly, use them and say so in the report. Otherwise retrieve results via **WebSearch** — WebFetch is blocked for essentially all football data domains (sportsmole, espn, uefa.com, whoscored all fail with "Unable to verify if domain is safe to fetch"), so do not waste calls on it. Use targeted searches for the final score, half-time score, and key events.
 
@@ -40,7 +40,7 @@ Final score, half-time score, and material events (red cards, injuries that forc
 - **Asian handicap**: did the chosen side win, lose, or push (走盘)? Report the result, not a score.
 - **Total goals**: did over/under hit at the primary line?
 
-**Recommended bet, if one was made**: did it win? Compute the P&L at the odds actually available at the time, not at the model's minimum acceptable odds. If a `plan.md` exists, report the total 20-yuan stake, the return, and the recovery rate.
+**Recommended bet, if one was made**: did it win? Compute the P&L at the odds actually available at the time, not at the model's minimum acceptable odds. For each `plan-NN.md`, report its total 20-yuan stake, the return, and the recovery rate — separately per plan, not merged across plans.
 
 ### Step 4: Attribute the error — this is the actual deliverable
 Reporting hit/miss is bookkeeping. **Attribution is the point.** Identify which specific piece of intelligence or which modelling assumption failed:

@@ -8,9 +8,11 @@
 | 分析 | `matches/YYYY-MM-DD/<slug>-analysis.md` | `football-match-analyzer` manifest |
 | 复盘 | `matches/YYYY-MM-DD/<slug>-review.md` | **本文件** |
 | 汇总 | `matches/YYYY-MM-DD/summary.md` | **本文件** |
-| 方案 | `matches/<本轮最早比赛日>/plan.md` | `lottery-strategist` manifest |
+| 方案 | `matches/<本轮最早比赛日>/plan-NN.md` | `lottery-strategist` manifest |
 
-> 跨比赛日批次：`summary.md` **每个比赛日一份**；`plan.md` **只有一份**，落在本轮最早的那个比赛日目录。
+> 跨比赛日批次：`summary.md` **每个比赛日一份**，落在各自的比赛日目录；方案文档落在本轮**最早**的那个比赛日目录，命名为 `plan-NN.md`。
+>
+> **方案永不覆盖。** 写入前先 `ls` 目标目录下已有的 `plan-*.md`，取下一个可用序号（无则 `plan-01.md`）。同一天出第二轮方案时，第一轮必须原样保留——方案是真实支出的记录，也是 reviewer 事后要逐份评分的对象，覆盖即销毁审计链。
 
 ## 命名规范
 
@@ -78,7 +80,7 @@
 | 让球 | <线> 取 <方向> | 赢 / 输 / 走盘 | 是 / 否 |
 | 总进球 | <线> 取 大 / 小 | 总进球 X | 是 / 否 |
 
-### 投注方案（若存在 plan.md）
+### 投注方案（每份 `plan-NN.md` 一张表；存在多份就逐一评分）
 
 | 注 | 选项 | 赔率 | 命中 | 盈亏 |
 |---|---|---|---|---|
