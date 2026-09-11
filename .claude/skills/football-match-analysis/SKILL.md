@@ -30,7 +30,7 @@ description: 编排足球比赛分析全流程 —— 复盘已出结果的历�
 - 用户说"这次别复盘" → 跳过，且**不写** `-review.md`，下次仍会提醒
 - 比赛未结束或查不到比分 → reviewer 会自行跳过且不写文件，这是预期行为，不要重试、不要报错
 
-细节与校借口径见 `references/review-protocol.md`。
+细节与校准口径见 `references/review-protocol.md`。
 
 ### 第 1 步：确认场次清单
 
