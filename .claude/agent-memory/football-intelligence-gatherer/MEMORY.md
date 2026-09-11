@@ -11,3 +11,4 @@
 - [Bournemouth/Brentford 2026-27 context](bournemouth-brentford-2026-27-context.md) — Rose 新任樱桃主帅、Andrews 执蜂军；布伦特福德近10次交锋不败（7胜3平），伯恩茅斯英超从未胜过对手
 - [Tottenham/Everton 2026-27 context](tottenham-everton-2026-27-context.md) — De Zerbi 热刺前3轮0进球（豪掷£330m仍崩盘）；Moyes 埃弗顿不败、Grealish复出、Nørgaard伤缺至10月
 - [Villa/Forest 2026-27 context](epl-2026-27-villa-forest-context.md) — Emery 维拉大换血（Jackson/Suzuki/Manzambi等，英超3轮0球）；Glasner 森林（Anderson卖曼城£116m，Delap标王，3-4-2-1）
+- [Arsenal/Chelsea 2026-27 context](arsenal-chelsea-2026-27-context.md) — 阿森纳2025-26英超冠军(85分)+社区盾，Arteta；切尔西第10换帅Alonso打3-4-2-1；Enzo Fernández卖曼城；交锋阿森纳10场不败+酋长4连胜11-2
