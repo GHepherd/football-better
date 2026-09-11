@@ -101,7 +101,7 @@ If the plan concluded 观望（0 注）, there is nothing to settle financially:
 
 Write `matches/<该方案所在比赛日>/plan-NN-review.md` using the structure in `.claude/skills/football-match-analysis/references/artifact-templates.md`.
 
-Then **you** — not the match review — add the one-line pointer to each covered match's `-review.md`:
+Then **you** — not the match review — add the pointer to each covered match's `-review.md`, **one line per plan** (a match covered by two plans gets two lines, each pointing at its own review):
 
 > 本场被 `matches/<比赛日>/plan-NN.md` 覆盖；其结算见 `plan-NN-review.md`。
 
