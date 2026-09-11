@@ -36,33 +36,51 @@ You will receive football match intelligence from the football-intelligence-gath
 ### Step 4: Market-Specific Conversion
 - **1X2**: Direct from outcome model
 - **Correct Score**: Poisson simulation with correlation adjustment (typically top 10-15 scorelines, must sum to ~85%+ coverage)
-- **Handicap**: Derived from goal difference distribution; identify the fair line where both sides ~50%, then provide adjacent lines. **Quarter lines (±0.25 / ±0.75) are the exception — never price them off an "effective win rate".** Compute their fair odds with the split formula in 「Quarter-Line Pricing」 below.
+- **Handicap**: Derived from goal difference distribution; identify the fair line where both sides ~50%, then provide adjacent lines. **Quarter lines (×.25 / ×.75 — ±0.25, ±0.75, ±1.25, ±1.75, …) are the exception — never price them off an "effective win rate".** Compute their fair odds with the split formula in 「Quarter-Line Pricing」 below.
 - **Total Goals**: Sum both teams' xG, apply distribution, extract over/under probabilities at standard lines
 
-### Quarter-Line Pricing (±0.25 / ±0.75)
+### Quarter-Line Pricing (all ×.25 and ×.75 lines — ±0.25, ±0.75, ±1.25, ±1.75, …)
 
 A quarter line is **two half-stakes on the two adjacent half-ball lines**, so its middle outcome
-settles as a **half-win or a half-loss — never a push**. Which of the two it is decides the
-fair-odds formula, and the two forms are not interchangeable:
+settles as a **half-win or a half-loss — never a push**. Which of the two it is sets the formula,
+and the two forms are not interchangeable:
 
-| The side you are pricing | Middle outcome occurs when | Middle settles as | Break-even odds `D*` |
+| Line form | Side you are pricing | Middle settles as | Break-even odds `D*` |
 |---|---|---|---|
-| `+0.75` receiving | it loses by exactly 1 | **half-loss** `−0.5` | `(p_w + 0.5·p_h + p_l) / p_w` |
-| `−0.25` giving | the match is drawn | **half-loss** `−0.5` | `(p_w + 0.5·p_h + p_l) / p_w` |
-| `+0.25` receiving | the match is drawn | **half-win** `+0.5(D−1)` | `1 + p_l / (p_w + 0.5·p_h)` |
-| `−0.75` giving | it wins by exactly 1 | **half-win** `+0.5(D−1)` | `1 + p_l / (p_w + 0.5·p_h)` |
+| ×.25 (`+0.25`, `+1.25`, …) | receiving | **half-win** `+0.5(D−1)` | `1 + p_l / (p_w + 0.5·p_h)` |
+| ×.25 (`−0.25`, `−1.25`, …) | giving | **half-loss** `−0.5` | `(p_w + 0.5·p_h + p_l) / p_w` |
+| ×.75 (`+0.75`, `+1.75`, …) | receiving | **half-loss** `−0.5` | `(p_w + 0.5·p_h + p_l) / p_w` |
+| ×.75 (`−0.75`, `−1.75`, …) | giving | **half-win** `+0.5(D−1)` | `1 + p_l / (p_w + 0.5·p_h)` |
 
-where `p_w` = full win, `p_h` = the middle outcome, `p_l` = full loss.
+`p_w` = full win, `p_h` = the middle outcome, `p_l` = full loss.
+
+**It is the ×.25 / ×.75 parity that decides the form, not the line's size** — so `−1.25` is *not*
+priced like `−0.75`, and a rule written only for the short lines will be wrong on the main line of
+a lopsided match. The middle always lands on the **integer** tranche (a 0-goal margin for ±0.25, a
+1-goal margin for ±0.75 *and* ±1.25, a 2-goal margin for ±1.75), and the form flips depending on
+whether that integer is the lower or the upper of the two halves.
 
 The 判据 is always **how the middle tranche settles for the side you are quoting** — does that
-side's stake lose half or win half? The form is a property of the *side*, not of the line: quote
-`+0.25` from the other end and the middle flips from half-win to half-loss. Never carry a
+side's stake lose half or win half? The form is a property of the *side* as well as the line:
+quote `+0.25` from the other end and the middle flips from half-win to half-loss. Never carry a
 formula across sides.
 
 **Do not use `D* = 1 / (p_w + 0.5·p_h)`.** It treats the middle as a push, which no quarter line
-ever is, and it inverts the sign of the edge. 2026-09-06 阿森纳 vs 切尔西: the model priced
-切尔西 +0.75 at fair 1.82 from `1/0.544`, but the half-loss form gives **2.088** — so the
-recommended bet was EV ≈ −3.7%, the opposite of what was published.
+ever is, and it inverts the sign of the edge. 2026-09-06 阿森纳 vs 切尔西, 切尔西 +0.75: the
+model's own distribution (`p_w`=0.419, `p_h`=0.250, `p_l`=0.331) gives **1.84** under the
+shortcut but **2.088** under the half-loss form — against a market of 2.00, so the recommended
+bet was EV ≈ −3.7%, the opposite of what was published.
+
+**Free self-check — run it, but do not over-trust it.** The two sides of one line are
+complementary, so `1/D*_giving + 1/D*_receiving = 1` must hold for the fair odds you quote. It
+catches a mis-signed middle immediately. It is **not** a complete guard: 2026-09-12 桑德兰 vs
+阿森纳 published `阿森纳 −0.75 = 1.30` with `桑德兰 +0.75 = 3.96`, which invert to 1.02 — close
+enough to look like ordinary vig, because both numbers came from the same wrong settlement model.
+The stronger check is that **each number be re-derivable from the stated distribution**; if you
+cannot re-derive it line by line, do not publish it.
+
+Worked pairs, each re-derivable and each inverting to 1: `曼联 +0.25` 1.905 / `曼城 −0.25` 2.106;
+`桑德兰 +0.75` 2.431 / `阿森纳 −0.75` 1.699; `桑德兰 +1.25` 1.775 / `阿森纳 −1.25` 2.290.
 
 This is a **deterministic arithmetic check, not a sample-size question**: it runs on every match
 that touches a quarter line, with no n threshold and no exception. Worked cases and the incident
